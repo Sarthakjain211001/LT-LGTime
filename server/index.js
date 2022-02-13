@@ -1,13 +1,14 @@
 const express = require('express');   //importing express.
 const app = express();             //creating the express app.
 const PORT = 5000;
-
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');  //importing mongoose.
 
 const dotenv = require('dotenv');  //using dotenv to hide the secret keys and db connection link.
 dotenv.config();
 
 const authRoute = require('./routes/auth');
+const postRoute = require('./routes/post');
 
 mongoose.connect(process.env.MONGO_URL)      //connecting to the database.
 .then(()=> console.log("DB Connection Successfull!"))
@@ -21,7 +22,10 @@ app.use(express.json())  // To send the data in the form of json in get/post req
                          // A middleware used to enable us to use req.body.
 
 app.use(cors());
+app.use(cookieParser());
+
 app.use('/api/auth', authRoute);
+app.use('/api/post', postRoute);
 
 app.listen(PORT, ()=>{
     console.log(`server running on PORT ${PORT}`);

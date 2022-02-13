@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken')
 // const cookie = require('cookie-parser')
 const dotenv = require("dotenv");
-// const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 dotenv.config();
 
 const Jwt_sec = process.env.JWT_SECRET;
@@ -50,8 +50,8 @@ async(req,res)=> {
      res.cookie('authToken', authToken, {
          maxAge: 259200000, 
          httpOnly: true,
-         sameSite: "none",
-         secure : true
+        //  sameSite: "none",
+        //  secure : true
       });
      return res.status(201).json({authToken: authToken});
     }catch(err){
@@ -92,8 +92,8 @@ async(req,res)=>{
        res.cookie('authToken', authToken, {
            maxAge: 259200000,
             httpOnly: true,
-            sameSite: "none",
-            secure : true 
+            // sameSite: "none",
+            // secure : true 
         });
        return res.status(200).json({authToken : authToken});
     }catch(err){
@@ -103,4 +103,32 @@ async(req,res)=>{
 }
 )
 
+//GET USER: 
+router.get("/getUser", verifyToken ,async(req, res)=>{
+    const userId= req.user.id;
+    // console.log("From get User: " , req.cookies);
+    try{
+        const getUser = await User.findById(userId);
+        if(getUser){
+            return res.status(200).json({User : getUser});
+        }
+        else{
+          return res.json({error : "User not found"});    
+        }
+    }catch(err){
+        return res.json({error : "Some error occured"});
+    }
+  
+  })
+  
+  //LOGOUT : 
+  router.get("/logout", async(req,res)=>{
+      try{
+       res.clearCookie('authToken', {sameSite: "none", secure : true});
+       return res.status(200).json("Logout success")
+      }catch(err){
+       return res.json({error : "Some error occured"})
+  }
+  })
+  
 module.exports = router
