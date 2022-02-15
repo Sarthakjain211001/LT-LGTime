@@ -22,7 +22,7 @@ const App = () => {
       <Route exact path = "/" element = {currUser ? <Home currUser={currUser} setCurrUser={setCurrUser}/> : <Navigate replace to="/login"/>}></Route>
       <Route exact path = "/login" element = {currUser ? <Navigate replace to="/"/> : <Login currUser={currUser} setCurrUser={setCurrUser}/>}></Route>
       <Route exact path = "/signup" element = {currUser ? <Navigate replace to="/"/> : <Signup currUser={currUser} setCurrUser={setCurrUser}/>}></Route>
-      <Route exact path = "/uploadPost" element = {currUser ? <UploadPost/> : <Navigate replace to="/login"/>}></Route>
+      <Route exact path = "/uploadPost" element = {currUser ? <UploadPost setCurrUser={setCurrUser}/> : <Navigate replace to="/login"/>}></Route>
       </Routes>
     </Router>
   )

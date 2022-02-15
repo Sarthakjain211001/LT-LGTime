@@ -7,19 +7,11 @@ import './UploadPost.css'
 import axios from 'axios';
 import Navbar from '../../compenents/Navbar';
 
-const UploadPost = ({ currUser, setCurrUser }) => {
+const UploadPost = ({setCurrUser}) => {
 
     const [text, settext] = useState("");
     const [img, setimg] = useState(null);
-    const [user, setUser] = useState(null);
     const [error, seterror] = useState("");
-
-
-    useEffect(async () => {                     
-        const getUser = await getUserCall();
-        if (getUser)
-            setUser(getUser.data.User);
-    }, [])
 
     useEffect(() => {    //displaying the messsages when the error state changes
         if(error){
@@ -47,6 +39,10 @@ const UploadPost = ({ currUser, setCurrUser }) => {
 
         document.getElementById("uploadingpara").style.display="block";         //displaying the upload msg when the user clicks on upload btn
         e.preventDefault();
+
+        const getUser = await getUserCall();
+        const user = getUser.data.User;
+        console.log("user from uploadpost:",user);
 
         if(!text && !img){         //If both text and mg are absent then return with the err
           seterror("Post can't be empty");
@@ -167,7 +163,7 @@ const UploadPost = ({ currUser, setCurrUser }) => {
 
 return (
     <>
-    <Navbar/>
+    <Navbar setCurrUser={setCurrUser}/>
         <div className="container">
             <div className="myCard" >
                 <div className="row">

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000/api";
+const baseURL = "https://listiee-assignment.herokuapp.com/api";
+// const baseURL = "http://localhost:5000/api";
 
 
 //Writing all the api calls here at one place

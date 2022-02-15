@@ -1,6 +1,6 @@
 const express = require('express');   //importing express.
 const app = express();             //creating the express app.
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');  //importing mongoose.
 
@@ -22,9 +22,9 @@ app.use(express.json())  // To send the data in the form of json in get/post req
                          // A middleware used to enable us to use req.body.
 
 app.use((req, res, next) => {                  //setting the cors.
-    // res.setHeader("Access-Control-Allow-Origin", "https://kind-bell-f2c270.netlify.app");
+    res.setHeader("Access-Control-Allow-Origin", "https://stoic-agnesi-6f35c3.netlify.app");
 
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 
     res.setHeader(
       "Access-Control-Allow-Methods",
