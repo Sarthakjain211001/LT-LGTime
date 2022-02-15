@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const PostSchema = new Schema({
-    user:{           
+    user:{                   //user who will create the post
       type: Object,
       required: true,
     },
-    text : {
+    text : {                       //text of the post
         type: String,
     },
-    img : {
+    img : {                     //image of the post
         type: String,
     },
-    location: {
+    location: {               //location from where the post is uploaded
         type: Object,
         required: true,
     }

@@ -1,18 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post')
-const { body, validationResult } = require('express-validator');
-// const bcrypt = require('bcryptjs');
-// var jwt = require('jsonwebtoken')
-// const cookie = require('cookie-parser')
-// const dotenv = require("dotenv");
 const verifyToken = require('../middleware/verifyToken');
-// dotenv.config();
 
-router.post('/create', verifyToken ,async(req, res)=>{
+
+//CREATE :
+router.post('/create', verifyToken ,async(req, res)=>{            //creating a post
    try{ 
     const user_Id = req.user.id;
-    const{user, text, img} = req.body;
+    const{user, text, img, location} = req.body;
     
     if(user._id != user_Id){      //A user can upload a post by only his name. i.e Rahul can't create a post consisting of Ram's Id and name.
         return res.json({error: "Access not allowed"});
@@ -25,7 +21,8 @@ router.post('/create', verifyToken ,async(req, res)=>{
     const newPost = await Post.create({
         user: user,
         text: text,
-        img: img
+        img: img,
+        location: location
     })
 
     return res.status(201).json({post: newPost});
@@ -33,6 +30,17 @@ router.post('/create', verifyToken ,async(req, res)=>{
        res.json({error: err});
    }
 
+})
+
+//FETCH: 
+router.get("/fetchPosts", verifyToken, async(req,res)=>{   //fetching all the posts.
+    try{
+        const posts = await Post.find();
+        res.json(posts);
+    }catch(err){
+      res.json(err)
+    }
+     
 })
 
 module.exports = router;

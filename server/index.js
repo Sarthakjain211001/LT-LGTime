@@ -21,8 +21,27 @@ const cors  = require('cors');  //using cors to allow frontend to access the bac
 app.use(express.json())  // To send the data in the form of json in get/post requests. 
                          // A middleware used to enable us to use req.body.
 
-app.use(cors());
-app.use(cookieParser());
+app.use((req, res, next) => {                  //setting the cors.
+    // res.setHeader("Access-Control-Allow-Origin", "https://kind-bell-f2c270.netlify.app");
+
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "X-Requested-With,content-type"
+    );
+
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    next();
+  });
+  
+
+app.use(cookieParser());       //usning cookie parser to store the cookie
 
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute);
